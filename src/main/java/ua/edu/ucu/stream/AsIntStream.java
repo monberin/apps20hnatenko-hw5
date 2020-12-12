@@ -1,9 +1,12 @@
 package ua.edu.ucu.stream;
 
-import ua.edu.ucu.function.*;
+import ua.edu.ucu.function.IntBinaryOperator;
+import ua.edu.ucu.function.IntConsumer;
+import ua.edu.ucu.function.IntPredicate;
+import ua.edu.ucu.function.IntToIntStreamFunction;
+import ua.edu.ucu.function.IntUnaryOperator;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+
 
 public class AsIntStream implements IntStream {
 
@@ -32,7 +35,7 @@ public class AsIntStream implements IntStream {
     }
 
     @Override
-    public Double average () {
+    public Double average() {
         double sum = 0;
         int size = 0;
         for (int el : list) {
@@ -43,29 +46,29 @@ public class AsIntStream implements IntStream {
     }
 
     @Override
-    public Integer max () {
+    public Integer max() {
         return this.reduce(Integer.MIN_VALUE, Math::max);
     }
 
     @Override
-    public Integer min () {
+    public Integer min() {
         return this.reduce(Integer.MAX_VALUE, Math::min);
     }
 
     @Override
-    public long count () {
+    public long count() {
         return list.size();
     }
 
     @Override
-    public Integer sum () {
+    public Integer sum() {
         return this.reduce(0, Integer::sum);
     }
 
 
 
     @Override
-    public IntStream filter (IntPredicate predicate) {
+    public IntStream filter(IntPredicate predicate) {
         ArrayList<Integer> newList = new ArrayList<Integer>();
         for (int el : list) {
             if (predicate.test(el)) {
@@ -76,14 +79,14 @@ public class AsIntStream implements IntStream {
     }
 
     @Override
-    public void forEach (IntConsumer action) {
+    public void forEach(IntConsumer action) {
         for (int value : list) {
             action.accept(value);
         }
     }
 
     @Override
-    public IntStream map (IntUnaryOperator mapper) {
+    public IntStream map(IntUnaryOperator mapper) {
         ArrayList<Integer> newList = new ArrayList<Integer>();
         for (int el : list) {
             newList.add(mapper.apply(el));
@@ -92,7 +95,7 @@ public class AsIntStream implements IntStream {
     }
 
     @Override
-    public IntStream flatMap (IntToIntStreamFunction func) {
+    public IntStream flatMap(IntToIntStreamFunction func) {
         ArrayList<Integer> newList = new ArrayList<Integer>();
         for (int el : list) {
             newList.addAll(((AsIntStream) func.applyAsIntStream(el)).list);
@@ -102,7 +105,7 @@ public class AsIntStream implements IntStream {
     }
 
     @Override
-    public int reduce ( int identity, IntBinaryOperator op) {
+    public int reduce(int identity, IntBinaryOperator op) {
         int id = identity;
         for (int el: list) {
             id = op.apply(id, el);
@@ -111,7 +114,7 @@ public class AsIntStream implements IntStream {
     }
 
     @Override
-    public int[] toArray () {
+    public int[] toArray() {
         int[] array = new int[list.size()];
         for (int i =0; i < array.length; i++) {
             array[i] = list.get(i);
