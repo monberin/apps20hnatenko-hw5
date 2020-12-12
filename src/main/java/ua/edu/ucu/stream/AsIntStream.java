@@ -116,16 +116,11 @@ public class AsIntStream implements IntStream {
     @Override
     public int[] toArray() {
         int[] array = new int[list.size()];
-        for (int i =0; i < array.length; i++) {
+        for (int i = 0; i < array.length; i++) {
             array[i] = list.get(i);
         }
         return array;
     }
 
 }
-
-
-
-
-
 
